@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Таблица с числами</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 50%;
+      margin: 20px auto;
+    }
+    td {
+      border: 1px solid #000;
+      text-align: center;
+      padding: 10px;
+    }
+    .highlight {
+      background-color: orange;
+    }
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Таблица -->
+  <table id="numberTable">
+    <!-- Таблица начально пустая -->
+  </table>
+
+  <!-- Кнопка -->
+  <button onclick="addNumber()">Добавить число</button>
+
+  <script>
+    const table = document.getElementById('numberTable');
+
+    // Изначально создаем таблицу 5x6 с 30 случайными числами
+    function initializeTable() {
+      const randomNumbers = Array.from({ length: 30 }, () => Math.floor(Math.random() * 100));
+      let index = 0;
+      for (let row = 0; row < 5; row++) {
+        const tr = document.createElement('tr');
+        for (let col = 0; col < 6; col++) {
+          const td = document.createElement('td');
+          const number = randomNumbers[index];
+          td.textContent = number;
+
+          // Окрашиваем ячейку, если число >= 50
+          if (number >= 50) {
+            td.classList.add('highlight');
+          }
+
+          tr.appendChild(td);
+          index++;
+        }
+        table.appendChild(tr);
+      }
+    }
+
+    // Функция добавления числа
+    function addNumber() {
+      const number = Math.floor(Math.random() * 100);
+      const rows = table.rows;
+
+      // Ищем первую строку с незаполненными ячейками
+      for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].cells;
+        if (cells.length < 6) {
+          const td = document.createElement('td');
+          td.textContent = number;
+
+          // Окрашиваем ячейку, если число >= 50
+          if (number >= 50) {
+            td.classList.add('highlight');
+          }
+
+          rows[i].appendChild(td);
+          return;
+        }
+      }
+
+      // Если все строки заполнены, добавляем новую строку
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.textContent = number;
+
+      // Окрашиваем ячейку, если число >= 50
+      if (number >= 50) {
+        td.classList.add('highlight');
+      }
+
+      tr.appendChild(td);
+      table.appendChild(tr);
+    }
+
+    // Инициализация таблицы
+    initializeTable();
+  </script>
+</body>
+</html>
